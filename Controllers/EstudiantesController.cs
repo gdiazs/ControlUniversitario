@@ -1,4 +1,5 @@
-﻿using ControlUniversitario.Services;
+﻿using ControlUniversitario.Models;
+using ControlUniversitario.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,13 +26,38 @@ namespace ControlUniversitario.Controllers
         [HttpGet]
         public ActionResult Nuevo()
         {
-            return View();
+            return View("EstudianteFormulario");
+        }
+
+        [HttpGet]
+        public ActionResult Editar(int id) {
+            var estudianteEncontrado = this._estudiantesServicio.ObtenerPorId(id);
+            return View("EstudianteFormulario", estudianteEncontrado);
         }
 
         [HttpPost]
-        public ActionResult Agregar()
+        public ActionResult Agregar( EstudianteModelo estudianteModelo)
         {
-            return RedirectToAction("Index");
+            var vistaNuevo = View("EstudianteFormulario", estudianteModelo);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    this._estudiantesServicio.Agregar(estudianteModelo);
+                }
+                catch (EstudiantesServicioExcepcion ex) {
+                    ViewData["MensajeError"] = ex.Message;
+                    return vistaNuevo;
+                }
+                return RedirectToAction("Index");
+
+            }
+            else
+            {
+                ViewData["message"] = "La solcitud es inválida";
+                return vistaNuevo;
+            }
+            
         }
 
     }

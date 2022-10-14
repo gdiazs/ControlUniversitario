@@ -1,6 +1,9 @@
 ﻿using ControlUniversitario.Entities;
+using ControlUniversitario.Services;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 
@@ -15,7 +18,14 @@ namespace ControlUniversitario.Repositories
 
         public Estudiante Agregar(Estudiante t)
         {
-            throw new NotImplementedException();
+ 
+            using (var entities = new ControlUniversitarioDBEntities())
+            {
+                var estudianteIngresado = entities.Estudiantes.Add(t);
+                entities.SaveChanges();
+                return estudianteIngresado;
+
+            }
         }
 
         public bool Elimninar(long id)

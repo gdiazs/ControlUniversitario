@@ -9,9 +9,9 @@
 
 <div>
     <h2 class="pb-3">Gestión de Estudiantes</h2>
-    <div class="row d-flex flex-row-reverse pb-3">
+    <div class="row d-md-flex justify-content-md-end pb-3">
         
-       @Html.ActionLink("+ Ingresar estudiante", "Nuevo", new { }, new { @class = "col-1 btn btn-outline-primary w-25" })
+       @Html.ActionLink("+ Ingresar estudiante", "Nuevo", new { }, new { @class = "col-md-2 col-12 btn btn-outline-primary" })
     </div>
     <table class="table pt-3 ">
         <thead class="table-primary">
@@ -23,6 +23,7 @@
                 <th scope="col">Segundo Apellido</th>
                 <th scope="col">Fecha de Nacimiento</th>
                 <th scope="col">Fecha de Ingreso</th>
+                <th scope="col">Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +39,13 @@
                     <td>@estudiante.Nombre</td>
                     <td>@estudiante.PrimerApellido</td>
                     <td>@estudiante.SegundoApellido</td>
-                    <td>@estudiante.FechaDeNacimiento</td>
+                    <td>@estudiante.FechaDeNacimiento.ToShortDateString()</td>
                     <td>@estudiante.FechaDeIngreso</td>
+                    <td>
+                        @Html.ActionLink("Editar", "Editar", new { id = estudiante.EstudianteID })
+                        @Html.ActionLink("Eliminar", "Eliminar", new { id = estudiante.EstudianteID })
+
+                    </td>
                 </tr>
             }
         </tbody>
