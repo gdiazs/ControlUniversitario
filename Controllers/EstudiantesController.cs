@@ -18,7 +18,21 @@ namespace ControlUniversitario.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var estudiantes = this._estudiantesServicio.ObtenerTodos();
+            return View(estudiantes);
+        }
+
+        [HttpGet]
+        public ActionResult Nuevo()
+        {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Agregar()
+        {
+            return RedirectToAction("Index");
+        }
+
     }
 }

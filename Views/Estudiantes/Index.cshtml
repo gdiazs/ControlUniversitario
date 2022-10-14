@@ -1,4 +1,6 @@
-﻿
+﻿@using ControlUniversitario.Entities
+@model List<Estudiante>
+
 @{
     ViewBag.Title = "Index";
     ViewBag.ActionTitle = "Gestión de Estudiantes";
@@ -6,34 +8,40 @@
 }
 
 <div>
-    <h2>Gestión de Estudiantes</h2>
-    <table class="table">
-        <thead>
+    <h2 class="pb-3">Gestión de Estudiantes</h2>
+    <div class="row d-flex flex-row-reverse pb-3">
+        
+       @Html.ActionLink("+ Ingresar estudiante", "Nuevo", new { }, new { @class = "col-1 btn btn-outline-primary w-25" })
+    </div>
+    <table class="table pt-3 ">
+        <thead class="table-primary">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Primer Apellido</th>
+                <th scope="col">Segundo Apellido</th>
+                <th scope="col">Fecha de Nacimiento</th>
+                <th scope="col">Fecha de Ingreso</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>twitter</td>
-            </tr>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+
+                var estudiante = Model[i];
+                var numeroDeFila = i + 1;
+
+                <tr>
+                    <th scope="row">@numeroDeFila</th>
+                    <td>@estudiante.Identificacion</td>
+                    <td>@estudiante.Nombre</td>
+                    <td>@estudiante.PrimerApellido</td>
+                    <td>@estudiante.SegundoApellido</td>
+                    <td>@estudiante.FechaDeNacimiento</td>
+                    <td>@estudiante.FechaDeIngreso</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
