@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ControlUniversitarioDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="CursoID" />
+          </Key>
+          <Property Name="CursoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreDelCurso" Type="varchar" MaxLength="80" />
+          <Property Name="Descripcion" Type="text" Nullable="false" />
+          <Property Name="Precio" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Estudiante">
+          <Key>
+            <PropertyRef Name="EstudianteID" />
+          </Key>
+          <Property Name="EstudianteID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Identificacion" Type="varchar" MaxLength="12" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="PrimerApellido" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="SegundoApellido" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="datetime" Nullable="false" />
+          <Property Name="FechaDeIngreso" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MatriculaDeCurso">
+          <Key>
+            <PropertyRef Name="EstudianteID" />
+            <PropertyRef Name="CursoID" />
+          </Key>
+          <Property Name="EstudianteID" Type="bigint" Nullable="false" />
+          <Property Name="CursoID" Type="int" Nullable="false" />
+          <Property Name="FechaDeMatricula" Type="datetime" Nullable="false" />
+          <Property Name="Cuatrimestre" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="PrecioMatricula" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MatriculaDeCurso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="MatriculaDeCurso" Type="Self.MatriculaDeCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="CursoID" />
+            </Principal>
+            <Dependent Role="MatriculaDeCurso">
+              <PropertyRef Name="CursoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MatriculaDeCurso_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="MatriculaDeCurso" Type="Self.MatriculaDeCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="EstudianteID" />
+            </Principal>
+            <Dependent Role="MatriculaDeCurso">
+              <PropertyRef Name="EstudianteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlUniversitarioDBModelStoreContainer">
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatriculaDeCurso" EntityType="Self.MatriculaDeCurso" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MatriculaDeCurso_Curso" Association="Self.FK_MatriculaDeCurso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MatriculaDeCurso_Estudiante" Association="Self.FK_MatriculaDeCurso_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCurso" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ControlUniversitarioDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="CursoID" />
+          </Key>
+          <Property Name="CursoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreDelCurso" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="MatriculaDeCursoes" Relationship="Self.FK_MatriculaDeCurso_Curso" FromRole="Curso" ToRole="MatriculaDeCurso" />
+        </EntityType>
+        <EntityType Name="Estudiante">
+          <Key>
+            <PropertyRef Name="EstudianteID" />
+          </Key>
+          <Property Name="EstudianteID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Identificacion" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrimerApellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SegundoApellido" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaDeNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaDeIngreso" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="MatriculaDeCursoes" Relationship="Self.FK_MatriculaDeCurso_Estudiante" FromRole="Estudiante" ToRole="MatriculaDeCurso" />
+        </EntityType>
+        <EntityType Name="MatriculaDeCurso">
+          <Key>
+            <PropertyRef Name="EstudianteID" />
+            <PropertyRef Name="CursoID" />
+          </Key>
+          <Property Name="EstudianteID" Type="Int64" Nullable="false" />
+          <Property Name="CursoID" Type="Int32" Nullable="false" />
+          <Property Name="FechaDeMatricula" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cuatrimestre" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrecioMatricula" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Curso" Relationship="Self.FK_MatriculaDeCurso_Curso" FromRole="MatriculaDeCurso" ToRole="Curso" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_MatriculaDeCurso_Estudiante" FromRole="MatriculaDeCurso" ToRole="Estudiante" />
+        </EntityType>
+        <Association Name="FK_MatriculaDeCurso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="MatriculaDeCurso" Type="Self.MatriculaDeCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="CursoID" />
+            </Principal>
+            <Dependent Role="MatriculaDeCurso">
+              <PropertyRef Name="CursoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MatriculaDeCurso_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="MatriculaDeCurso" Type="Self.MatriculaDeCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="EstudianteID" />
+            </Principal>
+            <Dependent Role="MatriculaDeCurso">
+              <PropertyRef Name="EstudianteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlUniversitarioDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cursoes" EntityType="Self.Curso" />
+          <EntitySet Name="Estudiantes" EntityType="Self.Estudiante" />
+          <EntitySet Name="MatriculaDeCursoes" EntityType="Self.MatriculaDeCurso" />
+          <AssociationSet Name="FK_MatriculaDeCurso_Curso" Association="Self.FK_MatriculaDeCurso_Curso">
+            <End Role="Curso" EntitySet="Cursoes" />
+            <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCursoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MatriculaDeCurso_Estudiante" Association="Self.FK_MatriculaDeCurso_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiantes" />
+            <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCursoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ControlUniversitarioDBModelStoreContainer" CdmEntityContainer="ControlUniversitarioDBEntities">
+          <EntitySetMapping Name="Cursoes">
+            <EntityTypeMapping TypeName="ControlUniversitarioDBModel.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="CursoID" ColumnName="CursoID" />
+                <ScalarProperty Name="NombreDelCurso" ColumnName="NombreDelCurso" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estudiantes">
+            <EntityTypeMapping TypeName="ControlUniversitarioDBModel.Estudiante">
+              <MappingFragment StoreEntitySet="Estudiante">
+                <ScalarProperty Name="EstudianteID" ColumnName="EstudianteID" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="PrimerApellido" ColumnName="PrimerApellido" />
+                <ScalarProperty Name="SegundoApellido" ColumnName="SegundoApellido" />
+                <ScalarProperty Name="FechaDeNacimiento" ColumnName="FechaDeNacimiento" />
+                <ScalarProperty Name="FechaDeIngreso" ColumnName="FechaDeIngreso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatriculaDeCursoes">
+            <EntityTypeMapping TypeName="ControlUniversitarioDBModel.MatriculaDeCurso">
+              <MappingFragment StoreEntitySet="MatriculaDeCurso">
+                <ScalarProperty Name="EstudianteID" ColumnName="EstudianteID" />
+                <ScalarProperty Name="CursoID" ColumnName="CursoID" />
+                <ScalarProperty Name="FechaDeMatricula" ColumnName="FechaDeMatricula" />
+                <ScalarProperty Name="Cuatrimestre" ColumnName="Cuatrimestre" />
+                <ScalarProperty Name="PrecioMatricula" ColumnName="PrecioMatricula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
