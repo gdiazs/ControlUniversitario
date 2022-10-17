@@ -1,0 +1,44 @@
+﻿@using ControlUniversitario.Models
+@model EstudianteModelo
+
+@{
+    ViewBag.Title = "Nuevo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4  col-12 offset-md-4">
+        <h3>Ingreso de Usuario</h3>
+        <p>Por favor ingrese los siguientes datos:</p>
+
+        @if (TempData["MensajeExito"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["MensajeExito"]
+            </div>
+        }
+
+        @if (ViewData["MensajeAdvertencia"] != null)
+        {
+            <div class="alert alert-warning" role="alert">
+                @ViewData["MensajeAdvertencia"]
+            </div>
+        }
+
+        @if (ViewData["MensajeError"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["MensajeError"]
+            </div>
+        }
+        @using (Html.BeginForm("Agregar", "Estudiantes"))
+        {
+            @Html.EditorForModel("EstudianteFormulario", Model);
+            <div class="d-flex justify-content-end">
+                @Html.ActionLink("Regresar a la lista", "Index", new { }, new { @class = "btn  btn-outline-secondary" })
+                <input id="Submit" class="ms-3 btn btn-primary" type="submit" value="Guardar estudiante" />
+            </div>
+        }
+    </div>
+</div>
+

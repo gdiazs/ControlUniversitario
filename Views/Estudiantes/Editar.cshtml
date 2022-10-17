@@ -1,0 +1,32 @@
+﻿
+@using ControlUniversitario.Models
+@model EstudianteModelo
+
+@{
+    ViewBag.Title = "Nuevo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4  col-12 offset-md-4">
+        <h3>Ingreso de Usuario</h3>
+        <p>Por favor actualice los siguientes datos:</p>
+
+        @if (ViewData["MensajeError"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewData["MensajeError"]
+            </div>
+        }
+        @using (Html.BeginForm("Actualizar", "Estudiantes"))
+        {
+            @Html.TextBoxFor(model => model.Id, new { type = "hidden" })
+            @Html.EditorForModel("EstudianteFormulario", Model);
+            <div class="d-flex justify-content-end">
+                @Html.ActionLink("Regresar a la lista", "Index", new { }, new { @class = "btn  btn-outline-secondary" })
+                <input id="Submit" class="ms-3 btn btn-primary" type="submit" value="Actualizar Estudiante" />
+            </div>
+        }
+    </div>
+</div>
+

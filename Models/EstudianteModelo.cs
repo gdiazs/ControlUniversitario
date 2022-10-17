@@ -8,6 +8,8 @@ namespace ControlUniversitario.Models
 {
     public class EstudianteModelo
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Identificación es requerida")]
         public string Identificacion { get; set; }
 

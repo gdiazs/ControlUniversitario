@@ -1,9 +1,9 @@
 ﻿using ControlUniversitario.Entities;
 using ControlUniversitario.Models;
-using ControlUniversitario.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
@@ -13,15 +13,14 @@ namespace ControlUniversitario.Services
     public class EstudiantesServicio
     {
         private const string Unico = "UNIQUE";
-        private readonly EstudiantesRepositorio _estudiantesRepositorio;
+        private const string DateFormat = "yyyy-MM-dd";
 
-        public EstudiantesServicio(EstudiantesRepositorio estudiantesRepositorio)
-        {
-            _estudiantesRepositorio = estudiantesRepositorio;
-        }
 
         public List<Estudiante> ObtenerTodos() {
-            return _estudiantesRepositorio.Todos();
+            using (var entitites = new ControlUniversitarioDBEntities())
+            {
+                return entitites.Estudiantes.ToList();
+            }
         }
 
 
@@ -40,7 +39,12 @@ namespace ControlUniversitario.Services
 
             try
             {
-                this._estudiantesRepositorio.Agregar(estudiante);
+                using (var entities = new ControlUniversitarioDBEntities())
+                {
+                    var estudianteIngresado = entities.Estudiantes.Add(estudiante);
+                    entities.SaveChanges();
+
+                }
             }
             catch (DbUpdateException dbUpdateException)
             {
@@ -66,9 +70,10 @@ namespace ControlUniversitario.Services
             using (var entities = new ControlUniversitarioDBEntities())
             {
 
-                var estudianteEncontrado = entities.Estudiantes.Find(id);
-
-                return this.Convertir(estudianteEncontrado);
+                var estudianteEntityEncontrado = entities.Estudiantes.Find(id);
+                var estudianteModelo = this.Convertir(estudianteEntityEncontrado);
+                estudianteModelo.Id = id;
+                return estudianteModelo;
             }
            
         }
@@ -79,11 +84,32 @@ namespace ControlUniversitario.Services
             {
                 Identificacion = estudianteEncontrado.Identificacion,
                 Nombre = estudianteEncontrado.Nombre,
-                FechaDeNacimiento = String.Format("{0:d}", estudianteEncontrado.FechaDeNacimiento.ToShortDateString()), 
+                FechaDeNacimiento = estudianteEncontrado.FechaDeNacimiento.ToString(DateFormat), 
                 PrimerApellido = estudianteEncontrado.PrimerApellido,   
                 SegundoApellido = estudianteEncontrado.SegundoApellido,
     
             };
+        }
+
+
+
+        public void Actualizar(EstudianteModelo estudianteModelo)
+        {
+            using (var entities = new ControlUniversitarioDBEntities()) {
+
+                var estudianteEncontrado = entities.Estudiantes.Find(estudianteModelo.Id);
+                estudianteEncontrado.Identificacion = estudianteModelo.Identificacion;
+                estudianteEncontrado.Nombre = estudianteModelo.Nombre;
+                estudianteEncontrado.PrimerApellido = estudianteModelo.PrimerApellido;
+                estudianteEncontrado.SegundoApellido = estudianteModelo.SegundoApellido;
+                estudianteEncontrado.FechaDeNacimiento = Convert.ToDateTime(estudianteModelo.FechaDeNacimiento);
+                entities.SaveChanges();
+            }
+        }
+
+        private Estudiante[] ConvertToEntity(EstudianteModelo estudianteModelo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

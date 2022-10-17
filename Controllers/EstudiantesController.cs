@@ -1,9 +1,11 @@
-﻿using ControlUniversitario.Models;
+﻿using ControlUniversitario.Entities;
+using ControlUniversitario.Models;
 using ControlUniversitario.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
 
 namespace ControlUniversitario.Controllers
@@ -26,19 +28,12 @@ namespace ControlUniversitario.Controllers
         [HttpGet]
         public ActionResult Nuevo()
         {
-            return View("EstudianteFormulario");
-        }
-
-        [HttpGet]
-        public ActionResult Editar(int id) {
-            var estudianteEncontrado = this._estudiantesServicio.ObtenerPorId(id);
-            return View("EstudianteFormulario", estudianteEncontrado);
+            return View();
         }
 
         [HttpPost]
         public ActionResult Agregar( EstudianteModelo estudianteModelo)
         {
-            var vistaNuevo = View("EstudianteFormulario", estudianteModelo);
             if (ModelState.IsValid)
             {
                 try
@@ -47,18 +42,34 @@ namespace ControlUniversitario.Controllers
                 }
                 catch (EstudiantesServicioExcepcion ex) {
                     ViewData["MensajeError"] = ex.Message;
-                    return vistaNuevo;
+                    return View("Nuevo", estudianteModelo);
                 }
-                return RedirectToAction("Index");
+                TempData["MensajeExito"] = $"Estudiante con cédula {estudianteModelo.Identificacion} ha sido agregado satisfactoriamente";
+                return RedirectToAction("Nuevo");
 
             }
             else
             {
-                ViewData["message"] = "La solcitud es inválida";
-                return vistaNuevo;
+                ViewData["MensajeAdvertencia"] = "La solcitud es inválida";
+                return View("Nuevo", estudianteModelo); ;
             }
             
         }
+
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            var estudianteEncontrado = this._estudiantesServicio.ObtenerPorId(id);
+            return View(estudianteEncontrado);
+        }
+
+        [HttpPost]
+        public ActionResult Actualizar(EstudianteModelo estudianteModelo)
+        {
+            this._estudiantesServicio.Actualizar(estudianteModelo);
+            return View("Editar");
+        }
+
 
     }
 }
