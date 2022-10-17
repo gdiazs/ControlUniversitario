@@ -244,7 +244,6 @@
     <Content Include="Views\Estudiantes\Nuevo.cshtml" />
     <Content Include="Views\Estudiantes\EditorTemplates\EstudianteFormulario.cshtml" />
     <Content Include="Views\Estudiantes\Editar.cshtml" />
-    <Content Include="Views\_Alerts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
