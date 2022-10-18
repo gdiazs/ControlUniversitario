@@ -4,12 +4,28 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ControlUniversitarioDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ControlUniversitarioDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Carrera">
+          <Key>
+            <PropertyRef Name="CarreraID" />
+          </Key>
+          <Property Name="CarreraID" Type="int" Nullable="false" />
+          <Property Name="NombreCarrera" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="CarreraCurso">
+          <Key>
+            <PropertyRef Name="CarreraID" />
+            <PropertyRef Name="CursoID" />
+          </Key>
+          <Property Name="CarreraID" Type="int" Nullable="false" />
+          <Property Name="CursoID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Curso">
           <Key>
             <PropertyRef Name="CursoID" />
           </Key>
           <Property Name="CursoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Escuela" Type="varchar" MaxLength="200" />
           <Property Name="NombreDelCurso" Type="varchar" MaxLength="80" />
           <Property Name="Descripcion" Type="text" Nullable="false" />
           <Property Name="Precio" Type="money" Nullable="false" />
@@ -37,6 +53,30 @@
           <Property Name="Cuatrimestre" Type="varchar" MaxLength="80" Nullable="false" />
           <Property Name="PrecioMatricula" Type="money" Nullable="false" />
         </EntityType>
+        <Association Name="FK_CarreraCurso_Carrera">
+          <End Role="Carrera" Type="Self.Carrera" Multiplicity="1" />
+          <End Role="CarreraCurso" Type="Self.CarreraCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Carrera">
+              <PropertyRef Name="CarreraID" />
+            </Principal>
+            <Dependent Role="CarreraCurso">
+              <PropertyRef Name="CarreraID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarreraCurso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="CarreraCurso" Type="Self.CarreraCurso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="CursoID" />
+            </Principal>
+            <Dependent Role="CarreraCurso">
+              <PropertyRef Name="CursoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MatriculaDeCurso_Curso">
           <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
           <End Role="MatriculaDeCurso" Type="Self.MatriculaDeCurso" Multiplicity="*" />
@@ -62,9 +102,19 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ControlUniversitarioDBModelStoreContainer">
+          <EntitySet Name="Carrera" EntityType="Self.Carrera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarreraCurso" EntityType="Self.CarreraCurso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatriculaDeCurso" EntityType="Self.MatriculaDeCurso" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CarreraCurso_Carrera" Association="Self.FK_CarreraCurso_Carrera">
+            <End Role="Carrera" EntitySet="Carrera" />
+            <End Role="CarreraCurso" EntitySet="CarreraCurso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarreraCurso_Curso" Association="Self.FK_CarreraCurso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="CarreraCurso" EntitySet="CarreraCurso" />
+          </AssociationSet>
           <AssociationSet Name="FK_MatriculaDeCurso_Curso" Association="Self.FK_MatriculaDeCurso_Curso">
             <End Role="Curso" EntitySet="Curso" />
             <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCurso" />
@@ -74,8 +124,7 @@
             <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCurso" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ControlUniversitarioDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -88,6 +137,8 @@
           <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="MatriculaDeCursoes" Relationship="Self.FK_MatriculaDeCurso_Curso" FromRole="Curso" ToRole="MatriculaDeCurso" />
+          <Property Name="Escuela" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Carreras" Relationship="ControlUniversitarioDBModel.CarreraCurso" FromRole="Curso" ToRole="Carrera" />
         </EntityType>
         <EntityType Name="Estudiante">
           <Key>
@@ -151,7 +202,24 @@
             <End Role="Estudiante" EntitySet="Estudiantes" />
             <End Role="MatriculaDeCurso" EntitySet="MatriculaDeCursoes" />
           </AssociationSet>
+          <EntitySet Name="Carreras" EntityType="ControlUniversitarioDBModel.Carrera" />
+          <AssociationSet Name="CarreraCurso" Association="ControlUniversitarioDBModel.CarreraCurso">
+            <End Role="Carrera" EntitySet="Carreras" />
+            <End Role="Curso" EntitySet="Cursoes" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Carrera">
+          <Key>
+            <PropertyRef Name="CarreraID" />
+          </Key>
+          <Property Name="CarreraID" Type="Int32" Nullable="false" />
+          <Property Name="NombreCarrera" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cursoes" Relationship="ControlUniversitarioDBModel.CarreraCurso" FromRole="Carrera" ToRole="Curso" />
+        </EntityType>
+        <Association Name="CarreraCurso">
+          <End Type="ControlUniversitarioDBModel.Carrera" Role="Carrera" Multiplicity="*" />
+          <End Type="ControlUniversitarioDBModel.Curso" Role="Curso" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -161,6 +229,7 @@
           <EntitySetMapping Name="Cursoes">
             <EntityTypeMapping TypeName="ControlUniversitarioDBModel.Curso">
               <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="Escuela" ColumnName="Escuela" />
                 <ScalarProperty Name="CursoID" ColumnName="CursoID" />
                 <ScalarProperty Name="NombreDelCurso" ColumnName="NombreDelCurso" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
@@ -192,6 +261,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Carreras">
+            <EntityTypeMapping TypeName="ControlUniversitarioDBModel.Carrera">
+              <MappingFragment StoreEntitySet="Carrera">
+                <ScalarProperty Name="NombreCarrera" ColumnName="NombreCarrera" />
+                <ScalarProperty Name="CarreraID" ColumnName="CarreraID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CarreraCurso" TypeName="ControlUniversitarioDBModel.CarreraCurso" StoreEntitySet="CarreraCurso">
+            <EndProperty Name="Curso">
+              <ScalarProperty Name="CursoID" ColumnName="CursoID" />
+            </EndProperty>
+            <EndProperty Name="Carrera">
+              <ScalarProperty Name="CarreraID" ColumnName="CarreraID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

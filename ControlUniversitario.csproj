@@ -139,6 +139,9 @@
     <Compile Include="Controllers\CarrerasController.cs" />
     <Compile Include="Controllers\EstudiantesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Entities\Carrera.cs">
+      <DependentUpon>ControlUniversitarioEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\ControlUniversitarioEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

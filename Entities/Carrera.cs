@@ -12,24 +12,18 @@ namespace ControlUniversitario.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Curso
+    public partial class Carrera
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Curso()
+        public Carrera()
         {
-            this.MatriculaDeCursoes = new HashSet<MatriculaDeCurso>();
-            this.Carreras = new HashSet<Carrera>();
+            this.Cursoes = new HashSet<Curso>();
         }
     
-        public int CursoID { get; set; }
-        public string NombreDelCurso { get; set; }
-        public string Descripcion { get; set; }
-        public decimal Precio { get; set; }
-        public string Escuela { get; set; }
+        public int CarreraID { get; set; }
+        public string NombreCarrera { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MatriculaDeCurso> MatriculaDeCursoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Carrera> Carreras { get; set; }
+        public virtual ICollection<Curso> Cursoes { get; set; }
     }
 }

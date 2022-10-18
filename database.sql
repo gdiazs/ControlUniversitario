@@ -91,17 +91,17 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Carrera' and xtype = 'U')
 	GO
 GO
 
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'CarreraCursos' and xtype = 'U')
-	CREATE TABLE dbo.CarreraCursos
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'CarreraCurso' and xtype = 'U')
+	CREATE TABLE dbo.CarreraCurso
 	(
 		CarreraID INT, 
 		CursoID INT
-		CONSTRAINT PK_CarreraCursos PRIMARY KEY  CLUSTERED 
+		CONSTRAINT PK_CarreraCurso PRIMARY KEY  CLUSTERED 
 		(
 			CarreraID, 
 			CursoID
 		),
-		CONSTRAINT FK_CarreraCursos_Carrera FOREIGN KEY 
+		CONSTRAINT FK_CarreraCurso_Carrera FOREIGN KEY 
 		(
 			CarreraID
 
@@ -109,7 +109,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'CarreraCursos' and xtype =
 			CarreraID
 		)
 		,
-		CONSTRAINT FK_CarreraCursos_Curso FOREIGN KEY 
+		CONSTRAINT FK_CarreraCurso_Curso FOREIGN KEY 
 		(
 			CursoID
 
@@ -131,6 +131,8 @@ GO
 GRANT SELECT, INSERT, DELETE, UPDATE ON Estudiante TO UsuarioK456u2
 GRANT SELECT, INSERT, DELETE, UPDATE ON Curso TO UsuarioK456u2
 GRANT SELECT, INSERT, DELETE, UPDATE ON MatriculaDeCurso TO UsuarioK456u2
+GRANT SELECT, INSERT, DELETE, UPDATE ON Carrera TO UsuarioK456u2
+GRANT SELECT, INSERT, DELETE, UPDATE ON CarreraCurso TO UsuarioK456u2
 GO
 
 -- Inserciones

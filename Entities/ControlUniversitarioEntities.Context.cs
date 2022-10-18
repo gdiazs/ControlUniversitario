@@ -28,5 +28,6 @@ namespace ControlUniversitario.Entities
         public virtual DbSet<Curso> Cursoes { get; set; }
         public virtual DbSet<Estudiante> Estudiantes { get; set; }
         public virtual DbSet<MatriculaDeCurso> MatriculaDeCursoes { get; set; }
+        public virtual DbSet<Carrera> Carreras { get; set; }
     }
 }
