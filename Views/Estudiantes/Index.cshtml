@@ -1,4 +1,5 @@
 ﻿@using ControlUniversitario.Entities
+@using ControlUniversitario.Models
 @model List<Estudiante>
 
 @{
@@ -10,9 +11,16 @@
 <div>
     <h2 class="pb-3">Gestión de Estudiantes</h2>
     <div class="row d-md-flex justify-content-md-end pb-3">
-        
-       @Html.ActionLink("+ Ingresar estudiante", "Nuevo", new { }, new { @class = "col-md-2 col-12 btn btn-outline-primary" })
+
+        @Html.ActionLink("+ Ingresar estudiante", "Nuevo", new { }, new { @class = "col-md-2 col-12 btn btn-outline-primary" })
     </div>
+
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["MensajeExito"]
+        </div>
+    }
     <table class="table pt-3 ">
         <thead class="table-primary">
             <tr>
@@ -43,12 +51,32 @@
                     <td>@estudiante.FechaDeIngreso</td>
                     <td>
                         @Html.ActionLink("Editar", "Editar", new { id = estudiante.EstudianteID })
-                        @Html.ActionLink("Eliminar", "Eliminar", new { id = estudiante.EstudianteID })
-
+                        <a href="#" class="btn btn-sm btn-danger ms-1"
+                           dialogo-titulo="Eliminar estudiante con cédula @estudiante.Identificacion"
+                           dialogo-datos="@estudiante.EstudianteID"
+                           dialogo-mensaje="¿Está seguro que desea eliminar el estudiante?"
+                           data-bs-toggle="modal" data-bs-target="#dialogoEliminar">Eliminar</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    @using (Html.BeginForm("Eliminar", "Estudiantes", new { }, FormMethod.Post, new { @name = "eliminarForm" }))
+    {
+        <input type="hidden" name="estudianteID" />
+    }
+
+    @Html.Partial("_Dialogo", new DialogoModelo() { Id = "dialogoEliminar", ClaseBoton = "btn btn-danger", TextoBotonAceptar = "Eliminar" })
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            dialogo("dialogoEliminar", (dato) => {
+                let formularioEliminar = document.forms.eliminarForm;
+                formularioEliminar.estudianteID.value = dato;
+                formularioEliminar.submit();
+
+            });
+
+        }, false);
+    </script>
 </div>
 

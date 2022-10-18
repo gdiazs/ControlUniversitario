@@ -67,7 +67,17 @@ namespace ControlUniversitario.Controllers
         public ActionResult Actualizar(EstudianteModelo estudianteModelo)
         {
             this._estudiantesServicio.Actualizar(estudianteModelo);
+            ViewData["MensajeExito"] = "Datos actualizados";
             return View("Editar");
+        }
+
+
+        [HttpPost]
+        public ActionResult Eliminar(int estudianteId)
+        {
+            this._estudiantesServicio.Eliminar(estudianteId);
+            TempData["MensajeExito"] = "Estudiante ha sido eliminado";
+            return RedirectToAction("Index");
         }
 
 

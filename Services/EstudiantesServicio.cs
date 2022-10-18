@@ -107,9 +107,12 @@ namespace ControlUniversitario.Services
             }
         }
 
-        private Estudiante[] ConvertToEntity(EstudianteModelo estudianteModelo)
-        {
-            throw new NotImplementedException();
+
+        public void Eliminar(int id) {
+            using (var entitites = new ControlUniversitarioDBEntities()) {
+                entitites.Estudiantes.Remove(entitites.Estudiantes.Find(id));
+                entitites.SaveChanges();
+            }
         }
     }
 }
