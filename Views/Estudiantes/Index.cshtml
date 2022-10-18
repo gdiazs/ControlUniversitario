@@ -50,7 +50,8 @@
                     <td>@estudiante.FechaDeNacimiento.ToShortDateString()</td>
                     <td>@estudiante.FechaDeIngreso</td>
                     <td>
-                        @Html.ActionLink("Editar", "Editar", new { id = estudiante.EstudianteID })
+                        @Html.ActionLink("Editar", "Editar", new { id = estudiante.EstudianteID }, new { @class = "btn btn-sm btn-outline-info" })
+
                         <a href="#" class="btn btn-sm btn-danger ms-1"
                            dialogo-titulo="Eliminar estudiante con cédula @estudiante.Identificacion"
                            dialogo-datos="@estudiante.EstudianteID"

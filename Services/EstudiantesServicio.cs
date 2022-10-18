@@ -82,6 +82,7 @@ namespace ControlUniversitario.Services
         {
             return new EstudianteModelo()
             {
+                Id = estudianteEncontrado.EstudianteID,
                 Identificacion = estudianteEncontrado.Identificacion,
                 Nombre = estudianteEncontrado.Nombre,
                 FechaDeNacimiento = estudianteEncontrado.FechaDeNacimiento.ToString(DateFormat), 
