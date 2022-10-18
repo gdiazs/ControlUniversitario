@@ -136,6 +136,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Controllers\CarrerasController.cs" />
     <Compile Include="Controllers\EstudiantesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Entities\ControlUniversitarioEntities.Context.cs">
@@ -165,9 +166,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarreraModelo.cs" />
     <Compile Include="Models\EstudianteModelo.cs" />
     <Compile Include="Models\DialogoModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CarrerasServicio.cs" />
     <Compile Include="Services\EstudiantesServicio.cs" />
     <Compile Include="Services\EstudiantesServicioExcepcion.cs" />
   </ItemGroup>
@@ -247,6 +250,7 @@
     <Content Include="Views\Estudiantes\EditorTemplates\EstudianteFormulario.cshtml" />
     <Content Include="Views\Estudiantes\Editar.cshtml" />
     <Content Include="Views\Shared\_Dialogo.cshtml" />
+    <Content Include="Views\Carreras\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

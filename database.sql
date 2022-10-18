@@ -34,6 +34,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Curso' and xtype = 'U')
 	CREATE TABLE dbo.Curso
 	(
 		CursoID INT IDENTITY(1,1),
+		Escuela VARCHAR(200),
 		NombreDelCurso VARCHAR(80) UNIQUE,
 		Descripcion TEXT NOT NULL,
 		Precio MONEY NOT NULL,
@@ -76,6 +77,49 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'MatriculaDeCurso' and xtyp
 	)
 	GO
 GO
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Carrera' and xtype = 'U')
+	CREATE TABLE dbo.Carrera
+	(
+		CarreraID INTEGER, 
+		NombreCarrera VARCHAR(200)
+		CONSTRAINT PK_Carrera PRIMARY KEY  CLUSTERED 
+		(
+			CarreraID
+		)
+	)
+	GO
+GO
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'CarreraCursos' and xtype = 'U')
+	CREATE TABLE dbo.CarreraCursos
+	(
+		CarreraID INT, 
+		CursoID INT
+		CONSTRAINT PK_CarreraCursos PRIMARY KEY  CLUSTERED 
+		(
+			CarreraID, 
+			CursoID
+		),
+		CONSTRAINT FK_CarreraCursos_Carrera FOREIGN KEY 
+		(
+			CarreraID
+
+		) REFERENCES dbo.Carrera (
+			CarreraID
+		)
+		,
+		CONSTRAINT FK_CarreraCursos_Curso FOREIGN KEY 
+		(
+			CursoID
+
+		) REFERENCES dbo.Curso (
+			CursoID
+		)
+	)
+	GO
+GO
+
 
 
 CREATE LOGIN UsuarioK456u2 WITH PASSWORD = 'fn803UXsdD82', DEFAULT_DATABASE = ControlUniversitarioDB
