@@ -20,7 +20,16 @@ namespace ControlUniversitario.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            var carreras = this._carrerasServicio.ObtenerCarreras();
+            var itemsCarreras  =  carreras.Select(carrera => new SelectListItem() {
+                Value = carrera.CarreraID.ToString(),
+                Text = carrera.NombreCarrera
+
+            }).ToList();
+
+            itemsCarreras.Insert(0, new SelectListItem() { Value = "-1", Text = "Seleccione una carrera", Selected = true });
+
+            return View(itemsCarreras);
         }
     }
 }

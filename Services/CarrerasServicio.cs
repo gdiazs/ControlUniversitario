@@ -1,4 +1,5 @@
-﻿using ControlUniversitario.Models;
+﻿using ControlUniversitario.Entities;
+using ControlUniversitario.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,23 +9,14 @@ namespace ControlUniversitario.Services
 {
     public class CarrerasServicio
     {
-        private readonly List<CarreraModelo> carreras;
 
-        public CarrerasServicio()
+
+        public List<Carrera> ObtenerCarreras()
         {
-            //Según los requisitos ya existen.
-            carreras = new List<CarreraModelo>
-            {
-                new CarreraModelo() { CarreraID = 1, NombreCarrera = "Informática" },
-                new CarreraModelo() { CarreraID = 1, NombreCarrera = "Administración" },
-                new CarreraModelo() { CarreraID = 1, NombreCarrera = "Diseño Gráfico" }
-            };
-        }
+            using (var entity = new ControlUniversitarioDBEntities()) {
+                return entity.Carreras.ToList();
+            }
 
-        public List<CarreraModelo> ObtenerCarreras()
-        {
-
-            return carreras;
         }
     }
 }

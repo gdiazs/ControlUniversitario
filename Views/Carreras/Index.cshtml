@@ -1,5 +1,19 @@
-﻿@{
+﻿@using ControlUniversitario.Entities
+
+@model List<SelectListItem>
+
+@{
     ViewBag.Title = "Página Inicio";
 }
 
-Carreras
+<div class="row">
+
+    <div class="col-6 offset-3">
+        @using (Html.BeginForm("ObtenerCursos", "Carreras"))
+        {
+            @Html.DropDownList("Carrera", Model, new { @class = "form-select" });
+
+        }
+    </div>
+
+</div>
