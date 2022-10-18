@@ -16,6 +16,9 @@ namespace ControlUniversitario
             bundles.Add(new Bundle("~/bundles/dialogo").Include(
                       "~/Scripts/dialogo.js"));
 
+            bundles.Add(new Bundle("~/bundles/carreras").Include(
+                      "~/Scripts/carreras.js"));
+
             bundles.Add(new Bundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/site.css"));

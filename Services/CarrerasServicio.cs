@@ -13,10 +13,19 @@ namespace ControlUniversitario.Services
 
         public List<Carrera> ObtenerCarreras()
         {
-            using (var entity = new ControlUniversitarioDBEntities()) {
+            using (var entity = new ControlUniversitarioDBEntities()) 
+            {
                 return entity.Carreras.ToList();
             }
 
+        }
+
+        public List<Curso> ObtenerCursosDeCarrera(int carreraID) 
+        {
+            using (var entity = new ControlUniversitarioDBEntities())
+            {
+                return entity.Carreras.Find(carreraID).Cursoes.ToList();
+            }
         }
     }
 }

@@ -169,6 +169,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CarreraModelo.cs" />
     <Compile Include="Models\EstudianteModelo.cs" />
     <Compile Include="Models\DialogoModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -223,6 +224,7 @@
       <DependentUpon>ControlUniversitarioEntities.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\carreras.js" />
     <Content Include="Scripts\dialogo.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
