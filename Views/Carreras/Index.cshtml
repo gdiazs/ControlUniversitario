@@ -9,19 +9,23 @@
 <div class="row">
 
     <div class="col-6 offset-3">
-        @using (Html.BeginForm("Cursos", "Carreras", new { }, FormMethod.Post, new { @name = "formularioCarrera" }))
+        <h5>Seleccione  una carrera</h5>
+        @using (Html.BeginForm("Cursos", "Carreras", new { }, FormMethod.Get, new { @name = "formularioCarrera" }))
         {
             @Html.DropDownList("CarreraSeleccionada", Model.Carreras, new { @class = "form-select" });
 
         }
     </div>
 
-    <div class="col-6 offset-3 pt-4">
+
+    <div class="col-6 offset-3 pt-5">
+        <h5 >Cursos de la carrera</h5>
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre del curso</th>
+                    <th scope="col">Descripción</th>
                     <th class="text-end" scope="col">Opciones</th>
                 </tr>
             </thead>
@@ -29,7 +33,7 @@
                 @if (Model.Cursos == null || Model.Cursos.Count == 0)
                 {
                     <tr>
-                        <td class="text-center" colspan="3">
+                        <td class="text-center" colspan="4">
                             No hay cursos asociados
                         </td>
                     </tr>
@@ -41,6 +45,7 @@
                         <tr>
                             <th scope="row">1</th>
                             <td>@curso.NombreDelCurso</td>
+                            <td>@curso.Descripcion</td>
                             <td class="text-end">
                                 <a href="#" class="btn btn-sm btn-danger ms-1"
                                    dialogo-titulo="Remover cursos de la carrera de @Model.NombreCarreraSeleccionada"
@@ -55,15 +60,27 @@
 
             </tbody>
         </table>
+        @using (Html.BeginForm("EliminarCurso", "Carreras", new { }, FormMethod.Post, new { @name = "eliminarCursoForm" }))
+        {
+            <input type="hidden" name="CarreraSeleccionada" />
+            <input type="hidden" name="CursoSeleccionado" />
+        }
+
         @Html.Partial("_Dialogo", new DialogoModelo() { Id = "dialogoEliminarCurso", ClaseBoton = "btn btn-danger", TextoBotonAceptar = "Remover" })
         <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', () => {
-            dialogo("dialogoEliminarCurso", (dato) => {
+            document.addEventListener('DOMContentLoaded', () => {
+                dialogo("dialogoEliminarCurso", (dato) => {
+                    var formulario = document.forms.eliminarCursoForm
+                    var carreraCurso = dato.split(",");
+                    console.log(carreraCurso);
 
-                console.log(dato)
-            });
+                    formulario.CarreraSeleccionada.value = carreraCurso[0];
+                    formulario.CursoSeleccionado.value = carreraCurso[1];
 
-        }, false);
+                    formulario.submit();
+                });
+
+            }, false);
         </script>
     </div>
 

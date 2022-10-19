@@ -27,5 +27,23 @@ namespace ControlUniversitario.Services
                 return entity.Carreras.Find(carreraID).Cursoes.ToList();
             }
         }
+
+        public void RemoverCurso(int carreraSeleccionada, int cursoSeleccionado)
+        {
+            using (var entity = new ControlUniversitarioDBEntities())
+            {
+                var carrera = entity.Carreras.Find(carreraSeleccionada);
+                var cursos =  entity.Carreras.Find(carreraSeleccionada).Cursoes.ToList();
+                foreach(var curso in cursos)
+                {
+                    if (curso.CursoID.Equals(cursoSeleccionado)) {
+                        carrera.Cursoes.Remove(curso);
+                    }
+                    break;
+                }
+
+                entity.SaveChanges();
+            }
+        }
     }
 }

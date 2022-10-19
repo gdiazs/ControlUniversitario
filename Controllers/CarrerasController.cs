@@ -29,7 +29,7 @@ namespace ControlUniversitario.Controllers
             return View(new CarreraModelo() { Carreras = itemsCarreras, Cursos = new List<Curso>() });
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult Cursos(CarreraModelo carreraCursosModelo)
         {
             List<SelectListItem> itemsCarreras = this.ObtenerListaCarreras();
@@ -49,6 +49,14 @@ namespace ControlUniversitario.Controllers
 
 
             return View("Index", carreraCursosModelo);
+        }
+
+        [HttpPost]
+        public ActionResult EliminarCurso(CarreraModelo carreraCursosModelo) {
+
+            this._carrerasServicio.RemoverCurso( int.Parse(carreraCursosModelo.CarreraSeleccionada), int.Parse(carreraCursosModelo.CursoSeleccionado));
+
+            return RedirectToAction("Cursos", carreraCursosModelo);
         }
 
         private List<SelectListItem> ObtenerListaCarreras()

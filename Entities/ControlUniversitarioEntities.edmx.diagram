@@ -6,11 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="0c0054ff1a4e4b678df97764a47d952f" Name="Diagram1">
         <EntityTypeShape EntityType="ControlUniversitarioDBModel.Curso" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ControlUniversitarioDBModel.Estudiante" Width="2" PointX="0.625" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlUniversitarioDBModel.Estudiante" Width="2" PointX="6.125" PointY="3.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ControlUniversitarioDBModel.MatriculaDeCurso" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="ControlUniversitarioDBModel.FK_MatriculaDeCurso_Curso" ManuallyRouted="false" />
         <AssociationConnector Association="ControlUniversitarioDBModel.FK_MatriculaDeCurso_Estudiante" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ControlUniversitarioDBModel.Carrera" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ControlUniversitarioDBModel.Carrera" Width="1.5" PointX="0.625" PointY="4.375" IsExpanded="true" />
         <AssociationConnector Association="ControlUniversitarioDBModel.CarreraCurso" />
       </Diagram>
     </edmx:Diagrams>

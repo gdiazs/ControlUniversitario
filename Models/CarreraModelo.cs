@@ -12,6 +12,8 @@ namespace ControlUniversitario.Models
 
         public List<SelectListItem> Carreras { set; get; }
 
+        public string CursoSeleccionado { set; get; }
+
         public string CarreraSeleccionada { set; get; }
 
         public string NombreCarreraSeleccionada { set; get; }
