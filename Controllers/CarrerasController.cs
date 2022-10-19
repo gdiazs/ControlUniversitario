@@ -36,15 +36,17 @@ namespace ControlUniversitario.Controllers
 
             foreach (SelectListItem item in itemsCarreras)
             {
-                if (item.Value.Equals(carreraCursosModelo.Carrera))
+                if (item.Value.Equals(carreraCursosModelo.CarreraSeleccionada))
                 {
                     item.Selected = true;
+                    carreraCursosModelo.NombreCarreraSeleccionada = item.Text;
                 }
             }
 
-            var cursos = this._carrerasServicio.ObtenerCursosDeCarrera(int.Parse(carreraCursosModelo.Carrera));
+            var cursos = this._carrerasServicio.ObtenerCursosDeCarrera(int.Parse(carreraCursosModelo.CarreraSeleccionada));
             carreraCursosModelo.Carreras = itemsCarreras;
             carreraCursosModelo.Cursos = cursos;
+
 
             return View("Index", carreraCursosModelo);
         }

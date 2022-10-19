@@ -11,7 +11,7 @@
     <div class="col-6 offset-3">
         @using (Html.BeginForm("Cursos", "Carreras", new { }, FormMethod.Post, new { @name = "formularioCarrera" }))
         {
-            @Html.DropDownList("Carrera", Model.Carreras, new { @class = "form-select" });
+            @Html.DropDownList("CarreraSeleccionada", Model.Carreras, new { @class = "form-select" });
 
         }
     </div>
@@ -22,22 +22,49 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre del curso</th>
-                    <th scope="col">Opciones</th>
+                    <th class="text-end" scope="col">Opciones</th>
                 </tr>
             </thead>
             <tbody>
-
-                @foreach (var curso in Model.Cursos)
+                @if (Model.Cursos == null || Model.Cursos.Count == 0)
                 {
                     <tr>
-                        <th scope="row">1</th>
-                        <td>@curso.NombreDelCurso</td>
-                        <td><a href="#" class="btn btn-sm btn-danger">Remover</a></td>
+                        <td class="text-center" colspan="3">
+                            No hay cursos asociados
+                        </td>
                     </tr>
                 }
+                else
+                {
+                    foreach (var curso in Model.Cursos)
+                    {
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@curso.NombreDelCurso</td>
+                            <td class="text-end">
+                                <a href="#" class="btn btn-sm btn-danger ms-1"
+                                   dialogo-titulo="Remover cursos de la carrera de @Model.NombreCarreraSeleccionada"
+                                   dialogo-datos="@Model.CarreraSeleccionada,@curso.CursoID"
+                                   dialogo-mensaje="¿Está seguro que desea eliminar el curso @curso.NombreDelCurso?"
+                                   data-bs-toggle="modal" data-bs-target="#dialogoEliminarCurso">Remover</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
 
             </tbody>
         </table>
+        @Html.Partial("_Dialogo", new DialogoModelo() { Id = "dialogoEliminarCurso", ClaseBoton = "btn btn-danger", TextoBotonAceptar = "Remover" })
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            dialogo("dialogoEliminarCurso", (dato) => {
+
+                console.log(dato)
+            });
+
+        }, false);
+        </script>
     </div>
 
 </div>

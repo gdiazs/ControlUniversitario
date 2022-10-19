@@ -1,6 +1,6 @@
 ﻿
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementsByName("Carrera")[0]
+    document.getElementsByName("CarreraSeleccionada")[0]
         .addEventListener("change", () => {
             document.forms.formularioCarrera.submit();
         })
