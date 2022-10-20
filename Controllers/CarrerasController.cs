@@ -63,8 +63,16 @@ namespace ControlUniversitario.Controllers
         [HttpPost]
         public ActionResult AgregarCurso(CarreraModelo carreraModelo)
         {
+            try
+            {
+                _carrerasServicio.AgregarCurso(int.Parse(carreraModelo.CarreraSeleccionada), carreraModelo.NuevoCurso);
 
-            _carrerasServicio.AgregarCurso(int.Parse(carreraModelo.CarreraSeleccionada), carreraModelo.NuevoCurso);
+            }
+            catch(CarrerasServicioExcepcion ex) 
+            {
+                TempData["MensajeError"] = ex.Message;
+            }
+           
 
             return RedirectToAction("Cursos", carreraModelo);
 

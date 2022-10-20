@@ -2,6 +2,7 @@
 using ControlUniversitario.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -13,14 +14,14 @@ namespace ControlUniversitario.Services
 
         public List<Carrera> ObtenerCarreras()
         {
-            using (var entity = new ControlUniversitarioDBEntities()) 
+            using (var entity = new ControlUniversitarioDBEntities())
             {
                 return entity.Carreras.ToList();
             }
 
         }
 
-        public List<Curso> ObtenerCursosDeCarrera(int carreraID) 
+        public List<Curso> ObtenerCursosDeCarrera(int carreraID)
         {
             using (var entity = new ControlUniversitarioDBEntities())
             {
@@ -33,10 +34,11 @@ namespace ControlUniversitario.Services
             using (var entity = new ControlUniversitarioDBEntities())
             {
                 var carrera = entity.Carreras.Find(carreraSeleccionada);
-                var cursos =  entity.Carreras.Find(carreraSeleccionada).Cursoes.ToList();
-                foreach(var curso in cursos)
+                var cursos = entity.Carreras.Find(carreraSeleccionada).Cursoes.ToList();
+                foreach (var curso in cursos)
                 {
-                    if (curso.CursoID.Equals(cursoSeleccionado)) {
+                    if (curso.CursoID.Equals(cursoSeleccionado))
+                    {
                         carrera.Cursoes.Remove(curso);
                         break;
                     }
@@ -46,23 +48,33 @@ namespace ControlUniversitario.Services
             }
         }
 
-        public void AgregarCurso(int carreraSeleccionada, CursoModelo cursoModelo) {
-
-            using (var entity = new ControlUniversitarioDBEntities()) {
-
-                var carrera = entity.Carreras.Find(carreraSeleccionada);
-
-                carrera.Cursoes.Add(new Curso()
+        public void AgregarCurso(int carreraSeleccionada, CursoModelo cursoModelo)
+        {
+            try
+            {
+                using (var entity = new ControlUniversitarioDBEntities())
                 {
-                    NombreDelCurso = cursoModelo.NombreDelCurso,
-                    Escuela = cursoModelo.Escuela,
-                    Precio = decimal.Parse(cursoModelo.Precio),
-                    Descripcion = cursoModelo.Descripcion
-                }); 
 
-                entity.SaveChanges();
+                    var carrera = entity.Carreras.Find(carreraSeleccionada);
 
+                    carrera.Cursoes.Add(new Curso()
+                    {
+                        NombreDelCurso = cursoModelo.NombreDelCurso,
+                        Escuela = cursoModelo.Escuela,
+                        Precio = decimal.Parse(cursoModelo.Precio),
+                        Descripcion = cursoModelo.Descripcion
+                    });
+
+                    entity.SaveChanges();
+
+                }
             }
+            catch (DbUpdateException ex)
+            {
+                throw new CarrerasServicioExcepcion("Ha ocurrido un error al actualizar la carrera", ex);
+            }
+
+
         }
     }
 }
