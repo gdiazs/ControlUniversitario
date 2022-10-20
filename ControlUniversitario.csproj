@@ -170,6 +170,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CarreraModelo.cs" />
+    <Compile Include="Models\CursoModelo.cs" />
     <Compile Include="Models\EstudianteModelo.cs" />
     <Compile Include="Models\DialogoModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -237,6 +238,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\validacionFormularios.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

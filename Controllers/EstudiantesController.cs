@@ -21,7 +21,7 @@ namespace ControlUniversitario.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var estudiantes = this._estudiantesServicio.ObtenerTodos();
+            var estudiantes = _estudiantesServicio.ObtenerTodos();
             return View(estudiantes);
         }
 
@@ -38,7 +38,7 @@ namespace ControlUniversitario.Controllers
             {
                 try
                 {
-                    this._estudiantesServicio.Agregar(estudianteModelo);
+                    _estudiantesServicio.Agregar(estudianteModelo);
                 }
                 catch (EstudiantesServicioExcepcion ex) {
                     ViewData["MensajeError"] = ex.Message;
@@ -59,7 +59,7 @@ namespace ControlUniversitario.Controllers
         [HttpGet]
         public ActionResult Editar(int id)
         {
-            var estudianteEncontrado = this._estudiantesServicio.ObtenerPorId(id);
+            var estudianteEncontrado = _estudiantesServicio.ObtenerPorId(id);
             return View(estudianteEncontrado);
         }
 

@@ -52,11 +52,22 @@ namespace ControlUniversitario.Controllers
         }
 
         [HttpPost]
-        public ActionResult EliminarCurso(CarreraModelo carreraCursosModelo) {
+        public ActionResult EliminarCurso(CarreraModelo carreraCursosModelo)
+        {
 
-            this._carrerasServicio.RemoverCurso( int.Parse(carreraCursosModelo.CarreraSeleccionada), int.Parse(carreraCursosModelo.CursoSeleccionado));
+            this._carrerasServicio.RemoverCurso(int.Parse(carreraCursosModelo.CarreraSeleccionada), int.Parse(carreraCursosModelo.CursoSeleccionado));
 
             return RedirectToAction("Cursos", carreraCursosModelo);
+        }
+
+        [HttpPost]
+        public ActionResult AgregarCurso(CarreraModelo carreraModelo)
+        {
+
+            _carrerasServicio.AgregarCurso(int.Parse(carreraModelo.CarreraSeleccionada), carreraModelo.NuevoCurso);
+
+            return RedirectToAction("Cursos", carreraModelo);
+
         }
 
         private List<SelectListItem> ObtenerListaCarreras()

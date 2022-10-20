@@ -19,5 +19,7 @@ namespace ControlUniversitario.Models
         public string NombreCarreraSeleccionada { set; get; }
 
         public List<Curso> Cursos { set; get; }
+
+        public CursoModelo NuevoCurso { set; get; }
     }
 }

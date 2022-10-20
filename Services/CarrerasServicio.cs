@@ -38,11 +38,30 @@ namespace ControlUniversitario.Services
                 {
                     if (curso.CursoID.Equals(cursoSeleccionado)) {
                         carrera.Cursoes.Remove(curso);
+                        break;
                     }
-                    break;
                 }
 
                 entity.SaveChanges();
+            }
+        }
+
+        public void AgregarCurso(int carreraSeleccionada, CursoModelo cursoModelo) {
+
+            using (var entity = new ControlUniversitarioDBEntities()) {
+
+                var carrera = entity.Carreras.Find(carreraSeleccionada);
+
+                carrera.Cursoes.Add(new Curso()
+                {
+                    NombreDelCurso = cursoModelo.NombreDelCurso,
+                    Escuela = cursoModelo.Escuela,
+                    Precio = decimal.Parse(cursoModelo.Precio),
+                    Descripcion = cursoModelo.Descripcion
+                }); 
+
+                entity.SaveChanges();
+
             }
         }
     }

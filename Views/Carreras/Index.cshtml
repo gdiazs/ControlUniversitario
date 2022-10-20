@@ -19,11 +19,16 @@
 
 
     <div class="col-6 offset-3 pt-5">
-        <h5 >Cursos de la carrera</h5>
+        <h5>Cursos de la carrera</h5>
+        <div class="row d-md-flex justify-content-md-end pb-3">
+            @if (Model.CarreraSeleccionada != null)
+            {
+                <a href="#" class="col-md-3 col-12 btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCurso">+ Añadir curso</a>
+            }
+        </div>
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nombre del curso</th>
                     <th scope="col">Descripción</th>
                     <th class="text-end" scope="col">Opciones</th>
@@ -43,7 +48,6 @@
                     foreach (var curso in Model.Cursos)
                     {
                         <tr>
-                            <th scope="row">1</th>
                             <td>@curso.NombreDelCurso</td>
                             <td>@curso.Descripcion</td>
                             <td class="text-end">
@@ -56,10 +60,83 @@
                         </tr>
                     }
                 }
-
-
             </tbody>
         </table>
+        @using (Html.BeginForm("AgregarCurso", "Carreras", new { }, FormMethod.Post, new { @name = "agregarCurso" }))
+        {
+
+            <div class="modal fade" id="agregarCurso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Curso</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @{
+                                string carreraSeleccionada = Model.CarreraSeleccionada;
+                                <input type="hidden" name="CarreraSeleccionada" value="@carreraSeleccionada" />
+                            }
+
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.NuevoCurso.NombreDelCurso, "Nombre del curso")
+                                @Html.TextBoxFor(model => model.NuevoCurso.NombreDelCurso, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NuevoCurso.NombreDelCurso)
+                            </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.NuevoCurso.Escuela, new { })
+                                @Html.TextBoxFor(model => model.NuevoCurso.Escuela, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NuevoCurso.Escuela)
+                            </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.NuevoCurso.Precio, "Precio")
+                                @Html.TextBoxFor(model => model.NuevoCurso.Precio, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NuevoCurso.Precio)
+                            </div>
+                            <div class="mb-3">
+                                @Html.LabelFor(model => model.NuevoCurso.Descripcion, "Descripcion")
+                                @Html.TextAreaFor(model => model.NuevoCurso.Descripcion, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NuevoCurso.Descripcion)
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <input type="submit" class="btn btn-primary" value="Agregar" />
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', () => {
+
+                                var formularioCurso = document.agregarCurso;
+                                formularioCurso.addEventListener("submit", (e) => {
+
+                                    var formularioCurso = document.forms.agregarCurso;
+
+                                    var nombreCurso = formularioCurso["NuevoCurso.NombreDelCurso"];
+                                    var escuela = formularioCurso["NuevoCurso.Escuela"];
+                                    var precio = formularioCurso["NuevoCurso.Precio"];
+
+                                    var nombreCursoValido = validarCampoNoVacio(nombreCurso, "Nombre del curso es requerido");
+                                    var escuelaValido = validarCampoNoVacio(escuela, "Escuela del curso es requerida");
+                                    var precioValido = validarCampoNoVacio(precio, "Precio del curso es requerido");
+
+                                    if (!(nombreCursoValido && escuelaValido && precioValido)) {
+                                        e.preventDefault();
+                                    }
+                                })
+
+
+
+
+                            }, false);
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
         @using (Html.BeginForm("EliminarCurso", "Carreras", new { }, FormMethod.Post, new { @name = "eliminarCursoForm" }))
         {
             <input type="hidden" name="CarreraSeleccionada" />
@@ -87,3 +164,4 @@
 </div>
 
 @Scripts.Render("~/bundles/carreras")
+@Scripts.Render("~/bundles/validacionFormularios")
