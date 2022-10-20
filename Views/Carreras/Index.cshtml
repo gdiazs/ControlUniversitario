@@ -28,6 +28,19 @@
                 </div>
             }
 
+            @if (TempData["MensajeExitoCursoEliminado"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["MensajeExitoCursoEliminado"]
+                </div>
+            }
+            @if (TempData["MensajeExitoCursoAgregado"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["MensajeExitoCursoAgregado"]
+                </div>
+            }
+
             @if (Model.CarreraSeleccionada != null)
             {
                 <a href="#" class="col-md-3 col-12 btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCurso">+ Añadir curso</a>

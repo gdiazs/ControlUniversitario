@@ -56,6 +56,7 @@ namespace ControlUniversitario.Controllers
         {
 
             this._carrerasServicio.RemoverCurso(int.Parse(carreraCursosModelo.CarreraSeleccionada), int.Parse(carreraCursosModelo.CursoSeleccionado));
+            TempData["MensajeExitoCursoEliminado"] = "Curso removido satisfactoriamente";
 
             return RedirectToAction("Cursos", carreraCursosModelo);
         }
@@ -66,6 +67,7 @@ namespace ControlUniversitario.Controllers
             try
             {
                 _carrerasServicio.AgregarCurso(int.Parse(carreraModelo.CarreraSeleccionada), carreraModelo.NuevoCurso);
+                TempData["MensajeExitoCursoAgregado"] = "Curso agregado con éxito";
 
             }
             catch(CarrerasServicioExcepcion ex) 
