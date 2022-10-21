@@ -2,6 +2,7 @@
 using ControlUniversitario.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.EnterpriseServices;
@@ -16,7 +17,8 @@ namespace ControlUniversitario.Services
         private const string DateFormat = "yyyy-MM-dd";
 
 
-        public List<Estudiante> ObtenerTodos() {
+        public List<Estudiante> ObtenerTodos()
+        {
             using (var entitites = new ControlUniversitarioDBEntities())
             {
                 return entitites.Estudiantes.ToList();
@@ -24,7 +26,8 @@ namespace ControlUniversitario.Services
         }
 
 
-        public void Agregar(EstudianteModelo estudianteModelo) {
+        public void Agregar(EstudianteModelo estudianteModelo)
+        {
 
             var estudiante = new Estudiante()
             {
@@ -34,7 +37,7 @@ namespace ControlUniversitario.Services
                 SegundoApellido = estudianteModelo.SegundoApellido,
                 FechaDeNacimiento = DateTime.Parse(estudianteModelo.FechaDeNacimiento),
                 FechaDeIngreso = DateTime.Now
-                
+
             };
 
             try
@@ -75,8 +78,54 @@ namespace ControlUniversitario.Services
                 estudianteModelo.Id = id;
                 return estudianteModelo;
             }
-           
+
         }
+
+        public Estudiante BuscarPorId(long id)
+        {
+            using (var entities = new ControlUniversitarioDBEntities())
+            {
+                return entities.Estudiantes
+                    .Include("MatriculaDeCursoes.Curso")
+                    .Where(estudiante => estudiante.EstudianteID.Equals(id))
+                    .First();
+            }
+
+        }
+
+
+        public List<Estudiante> BuscarPorCedula(String cedula)
+        {
+            if (cedula == null)
+                return new List<Estudiante>();
+
+            using (var entities = new ControlUniversitarioDBEntities())
+            {
+
+                var estudianteEntityEncontrado = entities.Estudiantes
+                    .Where(estudiante => estudiante.Identificacion.Equals(cedula)).ToList();
+
+                return estudianteEntityEncontrado;
+            }
+
+        }
+
+        public List<Estudiante> BuscarPorNombre(String nombre)
+        {
+            if (nombre == null)
+                return new List<Estudiante>();
+
+            using (var entities = new ControlUniversitarioDBEntities())
+            {
+
+                var estudianteEntityEncontrado = entities.Estudiantes
+                    .Where(estudiante => estudiante.Nombre.Contains(nombre)).ToList();
+
+                return estudianteEntityEncontrado;
+            }
+
+        }
+
 
         private EstudianteModelo Convertir(Estudiante estudianteEncontrado)
         {
@@ -85,10 +134,10 @@ namespace ControlUniversitario.Services
                 Id = estudianteEncontrado.EstudianteID,
                 Identificacion = estudianteEncontrado.Identificacion,
                 Nombre = estudianteEncontrado.Nombre,
-                FechaDeNacimiento = estudianteEncontrado.FechaDeNacimiento.ToString(DateFormat), 
-                PrimerApellido = estudianteEncontrado.PrimerApellido,   
+                FechaDeNacimiento = estudianteEncontrado.FechaDeNacimiento.ToString(DateFormat),
+                PrimerApellido = estudianteEncontrado.PrimerApellido,
                 SegundoApellido = estudianteEncontrado.SegundoApellido,
-    
+
             };
         }
 
@@ -96,7 +145,8 @@ namespace ControlUniversitario.Services
 
         public void Actualizar(EstudianteModelo estudianteModelo)
         {
-            using (var entities = new ControlUniversitarioDBEntities()) {
+            using (var entities = new ControlUniversitarioDBEntities())
+            {
 
                 var estudianteEncontrado = entities.Estudiantes.Find(estudianteModelo.Id);
                 estudianteEncontrado.Identificacion = estudianteModelo.Identificacion;
@@ -109,8 +159,10 @@ namespace ControlUniversitario.Services
         }
 
 
-        public void Eliminar(int id) {
-            using (var entitites = new ControlUniversitarioDBEntities()) {
+        public void Eliminar(int id)
+        {
+            using (var entitites = new ControlUniversitarioDBEntities())
+            {
                 entitites.Estudiantes.Remove(entitites.Estudiantes.Find(id));
                 entitites.SaveChanges();
             }

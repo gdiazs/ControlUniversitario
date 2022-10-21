@@ -165,14 +165,12 @@
                 dialogo("dialogoEliminarCurso", (dato) => {
                     var formulario = document.forms.eliminarCursoForm
                     var carreraCurso = dato.split(",");
-                    console.log(carreraCurso);
 
                     formulario.CarreraSeleccionada.value = carreraCurso[0];
                     formulario.CursoSeleccionado.value = carreraCurso[1];
 
                     formulario.submit();
                 });
-
             }, false);
         </script>
     </div>

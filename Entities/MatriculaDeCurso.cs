@@ -20,7 +20,7 @@ namespace ControlUniversitario.Entities
         public string Cuatrimestre { get; set; }
         public decimal PrecioMatricula { get; set; }
     
-        public virtual Curso Curso { get; set; }
         public virtual Estudiante Estudiante { get; set; }
+        public virtual Curso Curso { get; set; }
     }
 }

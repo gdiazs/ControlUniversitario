@@ -21,6 +21,15 @@ namespace ControlUniversitario.Services
 
         }
 
+        public List<Carrera> BuscarCarreraPorNombre(string carreraNombre)
+        {
+            using (var entity = new ControlUniversitarioDBEntities())
+            {
+                return entity.Carreras.Include("Cursoes").Where(carrera => carrera.NombreCarrera.Contains(carreraNombre)).ToList();
+            } 
+
+        }
+
         public List<Curso> ObtenerCursosDeCarrera(int carreraID)
         {
             using (var entity = new ControlUniversitarioDBEntities())

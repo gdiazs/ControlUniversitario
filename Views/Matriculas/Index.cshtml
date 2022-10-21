@@ -1,0 +1,77 @@
+﻿@model ControlUniversitario.Models.MatriculaModelo
+
+<div class="row">
+
+    <div class="col-6 offset-3">
+
+        <h4>Proceso de matrícula</h4>
+        <p>Debe buscar un estudiante por nombre o por cédula</p>
+
+        @using (Html.BeginForm("BuscarEstudiante", "Matriculas"))
+        {
+            <div class="row">
+                <div class="col-6">
+                    @Html.LabelFor(model => model.Cedula, "Identificación")
+                    @Html.TextBoxFor(model => model.Cedula, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Cedula)
+                </div>
+
+                <div class="col-6">
+                    @Html.LabelFor(model => model.Nombre, "Nombre")
+                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Nombre)
+                </div>
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-6 offset-6 d-md-flex justify-content-md-end">
+                    <input class="btn w-75 btn-primary" type="submit" value="Buscar" />
+                </div>
+
+            </div>
+        }
+
+    </div>
+    @if (Model.Estudiantes != null && Model.Estudiantes.Count > 0)
+    {
+        <table class="table mt-3 table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Identificación</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Primer Apellido</th>
+                    <th scope="col">Segundo Apellido</th>
+                    <th scope="col">Fecha de Nacimiento</th>
+                    <th scope="col">Fecha de Ingreso</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Estudiantes.Count; i++)
+                {
+
+                    var estudiante = Model.Estudiantes[i];
+                    var numeroDeFila = i + 1;
+
+                    <tr>
+                        <th scope="row">@numeroDeFila</th>
+                        <td>@estudiante.Identificacion</td>
+                        <td>@estudiante.Nombre</td>
+                        <td>@estudiante.PrimerApellido</td>
+                        <td>@estudiante.SegundoApellido</td>
+                        <td>@estudiante.FechaDeNacimiento.ToShortDateString()</td>
+                        <td>@estudiante.FechaDeIngreso</td>
+                        <td>
+                            @Html.ActionLink("Matricular", "Matricular", new { estudianteId = estudiante.EstudianteID }, new { @class = "btn btn-sm btn-outline-info" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+
+

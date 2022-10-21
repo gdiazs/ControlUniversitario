@@ -1,0 +1,137 @@
+﻿@model ControlUniversitario.Models.MatriculaDeEstudianteModelo
+
+<div class="row">
+
+    <div class="col-8 offset-2">
+        <h5 class="text-center">Datos del Estudiante</h5>
+        <div class="border p-2 ">
+            <div class="d-inline">
+                <label class="fw-bold">
+                    Cédula:
+                </label>
+                @Model.Estudiante.Identificacion
+            </div>
+            <div class="d-inline ms-4">
+                <label class="fw-bold">
+                    Nombre:
+                </label>
+                @Model.Estudiante.Nombre
+            </div>
+            <div class="d-inline ms-4">
+                <label class="fw-bold">
+                    Apellidos:
+                </label>
+                @Model.Estudiante.PrimerApellido  @Model.Estudiante.SegundoApellido
+            </div>
+            <div class="d-inline ms-4">
+                <label class="fw-bold">
+                    Fecha de Nacimiento:
+                </label>
+                @Model.Estudiante.FechaDeNacimiento.ToString("dd-MM-yyyy")
+            </div>
+
+
+        </div>
+
+
+        <h5 class="mt-5 text-center">Cursos Matriculados</h5>
+        <div class="border p-3">
+
+            <table class="table table-hover">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">Curso</th>
+                        <th class="text-end" scope="col">Precio</th>
+                        <th class="text-center" scope="col">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var curso in Model.CursosMatriculados)
+                    {
+                        <tr>
+                            <td>@curso.NombreDelCurso</td>
+                            <td class="text-end">@curso.Precio</td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-danger ">Remover</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="text-end fw-bold">Total:</td>
+                        <td class="text-end">562.35</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+
+        <h5 class="text-center mt-5">Cursos para matricular</h5>
+        <div class="border p-3">
+            <h6>Buscar carrera</h6>
+            @using (Html.BeginForm("BuscarCarrera", "Matriculas", new { }, FormMethod.Post, new { @class = "row g-3" }))
+            {
+
+                <div class="col-auto">
+                    <input type="hidden" name="EstudianteId" value="@Model.Estudiante.EstudianteID" />
+                    @Html.TextBoxFor(model => model.NombreCarrera, new { @class = "form-control", @placeholder = "Carrera por nombre" })
+                    @Html.ValidationMessageFor(model => model.NombreCarrera)
+
+                </div>
+                <div class="col-auto">
+                    <input class="btn btn-primary d-inline" type="submit" value="Buscar" />
+                </div>
+            }
+
+            @if (Model.Carreras != null)
+            {
+
+                <table class="table mt-5">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">Nombre del Carrera</th>
+                            <th class="text-center" scope="col">Cursos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var carrera in Model.Carreras)
+                        {
+                            <tr>
+                                <td>@carrera.NombreCarrera</td>
+                                <td>
+
+                                    <table class="table table-hover">
+                                        <thead class="table-secondary">
+                                            <tr>
+                                                <th scope="col">Curso</th>
+                                                <th class="text-center" scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var curso in carrera.Cursoes.ToList())
+                                            {
+                                                <tr>
+                                                    <td>@curso.NombreDelCurso</td>
+                                                    <td class="text-center">
+                                                        <a href="#" class="btn btn-primary">Matricular Curso</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            }
+
+        </div>
+
+
+    </div>
+</div>
