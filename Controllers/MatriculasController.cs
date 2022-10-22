@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using ControlUniversitario.Entities;
@@ -56,24 +58,75 @@ namespace ControlUniversitario.Controllers
 
             var matriculaEstudiante = new MatriculaDeEstudianteModelo() {
                 Estudiante = estudiante,
-                CursosMatriculados = cursosMatriculados
+                CursosMatriculados = cursosMatriculados,
+                TotalAPagar = cursosMatriculados.Select(curso => curso.Precio).Sum()
+
             };
 
             return View(matriculaEstudiante);
         }
 
-        public ActionResult BuscarCarrera(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo) {
+        [HttpPost]
+        public ActionResult MatricularCurso(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo) {
+
+            _carrerasServicio.AgregarCursoAEstudiante(matriculaDeEstudianteModelo.EstudianteId, int.Parse( matriculaDeEstudianteModelo.CursoAMatricular), DeterminarCuatrimestre());
+
+            return View("Matricular", ObtenerEstadoDeMatricula(matriculaDeEstudianteModelo));
+        }
+
+        [HttpPost]
+        public ActionResult DesmatricularCurso(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo)
+        {
+
+
+            _carrerasServicio.RemoverCursoAEstudiante(matriculaDeEstudianteModelo.EstudianteId, int.Parse(matriculaDeEstudianteModelo.CursoAMatricular));
+
+            return View("Matricular", ObtenerEstadoDeMatricula(matriculaDeEstudianteModelo));
+        }
+
+        private string DeterminarCuatrimestre()
+        {
+            var now = DateTime.Now;
+            if (now.Month >= 1 && now.Month <= 4) {
+                return "I cuatrimestre";
+            }
+
+            if (now.Month >= 5 && now.Month <= 8)
+            {
+                return "II cuatrimestre";
+            }
+
+            if (now.Month >= 9 && now.Month <= 12)
+            {
+                return "III cuatrimestre";
+            }
+
+            return "";
+        }
+
+        public ActionResult BuscarCarrera(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo)
+        {
+
+            return View("Matricular", ObtenerEstadoDeMatricula(matriculaDeEstudianteModelo));
+        }
+
+        private MatriculaDeEstudianteModelo ObtenerEstadoDeMatricula(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("cr-CR", false);
 
             var estudiante = _estudiantesServicio.BuscarPorId(matriculaDeEstudianteModelo.EstudianteId);
             var carreras = _carrerasServicio.BuscarCarreraPorNombre(matriculaDeEstudianteModelo.NombreCarrera);
             var cursosMatriculados = estudiante.MatriculaDeCursoes.Select(matriculados => matriculados.Curso).ToList();
 
-            matriculaDeEstudianteModelo.Carreras = carreras;
+
             matriculaDeEstudianteModelo.Estudiante = estudiante;
             matriculaDeEstudianteModelo.CursosMatriculados = cursosMatriculados;
+            matriculaDeEstudianteModelo.TotalAPagar = cursosMatriculados.Select(curso => curso.Precio).Sum();
+
+            matriculaDeEstudianteModelo.Carreras = carreras;
 
 
-            return View("Matricular", matriculaDeEstudianteModelo);
+            return matriculaDeEstudianteModelo;
         }
     }
 }

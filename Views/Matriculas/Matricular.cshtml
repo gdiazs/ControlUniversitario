@@ -46,13 +46,20 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     @foreach (var curso in Model.CursosMatriculados)
                     {
                         <tr>
                             <td>@curso.NombreDelCurso</td>
-                            <td class="text-end">@curso.Precio</td>
+                            <td class="text-end">@curso.Precio.ToString("C")</td>
                             <td class="text-center">
-                                <a href="#" class="btn btn-danger ">Remover</a>
+                                @using (Html.BeginForm("DesmatricularCurso", "Matriculas"))
+                                {
+                                    <input type="hidden" name="CursoAMatricular" value="@curso.CursoID" />
+                                    <input type="hidden" name="EstudianteId" value="@Model.Estudiante.EstudianteID" />
+                                    <input type="hidden" name="NombreCarrera" value="@Model.NombreCarrera" />
+                                    <input type="submit" class="btn btn-danger" value="Remover" />
+                                }
                             </td>
                         </tr>
                     }
@@ -60,7 +67,7 @@
                 <tfoot>
                     <tr>
                         <td class="text-end fw-bold">Total:</td>
-                        <td class="text-end">562.35</td>
+                        <td class="text-end">@Model.TotalAPagar.ToString("C")</td>
                         <td></td>
                     </tr>
                 </tfoot>
@@ -110,12 +117,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var curso in carrera.Cursoes.ToList())
+                                            @{ 
+
+                                                var cursosMatriculados = Model.CursosMatriculados;
+                                                var cursosNoMatriculados = carrera.Cursoes.Where(curso => !cursosMatriculados.Any( matriculado => curso.CursoID == matriculado.CursoID )).ToList();
+
+                                            }
+                                            @foreach (var curso in cursosNoMatriculados)
                                             {
                                                 <tr>
                                                     <td>@curso.NombreDelCurso</td>
                                                     <td class="text-center">
-                                                        <a href="#" class="btn btn-primary">Matricular Curso</a>
+                                                        @using (Html.BeginForm("MatricularCurso", "Matriculas"))
+                                                        {
+                                                            <input type="hidden" name="CursoAMatricular" value="@curso.CursoID" />
+                                                            <input type="hidden" name="EstudianteId" value="@Model.EstudianteId" />
+                                                            <input type="hidden" name="NombreCarrera" value="@Model.NombreCarrera" />
+                                                            <input type="submit" class="btn btn-primary" value="Matricular" />
+                                                        }
+
+
                                                     </td>
                                                 </tr>
                                             }

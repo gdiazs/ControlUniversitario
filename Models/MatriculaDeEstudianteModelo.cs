@@ -16,7 +16,11 @@ namespace ControlUniversitario.Models
 
         public List<Carrera> Carreras;
 
+        public String CursoAMatricular { set; get; }
+
         public List<Curso> CursosMatriculados;
+
+        public Decimal TotalAPagar { set; get; }
     }
 
 

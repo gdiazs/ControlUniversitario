@@ -26,7 +26,7 @@ namespace ControlUniversitario.Services
             using (var entity = new ControlUniversitarioDBEntities())
             {
                 return entity.Carreras.Include("Cursoes").Where(carrera => carrera.NombreCarrera.Contains(carreraNombre)).ToList();
-            } 
+            }
 
         }
 
@@ -84,6 +84,45 @@ namespace ControlUniversitario.Services
             }
 
 
+        }
+
+        public void AgregarCursoAEstudiante(long estudianteID, int cursoID, string cuatrimestre)
+        {
+            using (var entity = new ControlUniversitarioDBEntities())
+            {
+
+                var curso = entity.Cursoes.Find(cursoID);
+
+                var matriculaCurso = new MatriculaDeCurso()
+                {
+                    CursoID = cursoID,
+                    EstudianteID = estudianteID,
+                    Cuatrimestre = cuatrimestre,
+                    FechaDeMatricula = DateTime.Now,
+                    PrecioMatricula = curso.Precio
+                };
+
+
+                entity.MatriculaDeCursoes.Add(matriculaCurso);
+                entity.SaveChanges();
+
+            }
+        }
+
+        public void RemoverCursoAEstudiante(long estudianteID, int cursoID)
+        {
+            using (var entity = new ControlUniversitarioDBEntities())
+            {
+
+                var estudiante = entity.Estudiantes.Find(estudianteID);
+
+                var curso = estudiante.MatriculaDeCursoes.Where(matriculaCurso => matriculaCurso.CursoID == cursoID).First();
+
+                estudiante.MatriculaDeCursoes.Remove(curso);
+
+                entity.SaveChanges();
+
+            }
         }
     }
 }
