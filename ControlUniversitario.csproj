@@ -140,6 +140,7 @@
     <Compile Include="Controllers\EstudiantesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MatriculasController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Entities\Carrera.cs">
       <DependentUpon>ControlUniversitarioEntities.tt</DependentUpon>
     </Compile>
@@ -176,6 +177,7 @@
     <Compile Include="Models\DialogoModelo.cs" />
     <Compile Include="Models\MatriculaModelo.cs" />
     <Compile Include="Models\MatriculaDeEstudianteModelo.cs" />
+    <Compile Include="Models\ReporteModelo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CarrerasServicio.cs" />
     <Compile Include="Services\CarrerasServicioExcepcion.cs" />
@@ -263,6 +265,12 @@
     <Content Include="Views\Carreras\Index.cshtml" />
     <Content Include="Views\Matriculas\Index.cshtml" />
     <Content Include="Views\Matriculas\Matricular.cshtml" />
+    <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\Reportes\_SeleccionarReporte.cshtml" />
+    <Content Include="Views\Reportes\EstudiantesPorCurso.cshtml" />
+    <Content Include="Views\Reportes\CursosPorEstudiantes.cshtml" />
+    <Content Include="Views\Reportes\TotalIngresosPorCuatrimestre.cshtml" />
+    <Content Include="Views\Reportes\EstadisticaDeCursos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

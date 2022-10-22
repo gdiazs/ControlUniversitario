@@ -1,0 +1,11 @@
+﻿@model ControlUniversitario.Models.ReporteModelo
+
+@using (Html.BeginForm("BuscarReporte", "Reportes", new { }, FormMethod.Post, new { @name = "formularioReportes" }))
+{
+    @Html.DropDownList("ReporteSeleccionado", Model.ListaDeReportes, new { @class = "form-select" });
+
+    <div class="text-end">
+        <input class="btn btn-primary mt-3" type="submit" value="Generar Reporte" />
+    </div>
+
+}
