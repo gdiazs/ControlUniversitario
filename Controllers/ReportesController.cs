@@ -1,4 +1,5 @@
 ﻿using ControlUniversitario.Models;
+using ControlUniversitario.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace ControlUniversitario.Controllers
         private const string CursosPorEstudiantes = "cursos_x_estudiantes";
         private const string TotalCuatrimestre = "total_x_cuatrimestre";
         private const string EstadisticaCursosMatriculados = "estadistica_cursos_matriculados";
+
+        private readonly ReportesServicio _reportesServicio;
+
+        public ReportesController(ReportesServicio reportesServicio)
+        {
+            _reportesServicio = reportesServicio;
+        }
 
         [HttpGet]
         public ActionResult Index()
@@ -29,9 +37,10 @@ namespace ControlUniversitario.Controllers
             var listaDeReportes = ObtenerListaDeReportes();
 
 
-            if (reporteModelo.ReporteSeleccionado.Equals(EstudiantesPorCurso)) {
+            if (reporteModelo.ReporteSeleccionado.Equals(EstudiantesPorCurso))
+            {
 
-                return View("EstudiantesPorCurso", new ReporteModelo() { ListaDeReportes = listaDeReportes });
+                return View("EstudiantesPorCursos", ObtenerEstudiantesPorCursos());
             }
 
             if (reporteModelo.ReporteSeleccionado.Equals(CursosPorEstudiantes))
@@ -57,6 +66,14 @@ namespace ControlUniversitario.Controllers
 
 
             return View("Index", new ReporteModelo() { ListaDeReportes = listaDeReportes });
+        }
+
+        private ReporteModelo ObtenerEstudiantesPorCursos()
+        {
+
+            _reportesServicio.ObtenerEstudiantesPorCursos();
+
+            return new ReporteModelo() { ListaDeReportes = ObtenerListaDeReportes() };
         }
 
         private static List<SelectListItem> ObtenerListaDeReportes()
