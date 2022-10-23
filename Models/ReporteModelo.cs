@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ControlUniversitario.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,5 +11,11 @@ namespace ControlUniversitario.Models
     {
         public List<SelectListItem> ListaDeReportes { set; get; }
         public string ReporteSeleccionado { set; get; }
+
+        public List<Curso> cursos;
+
+        public PeriodoDeMatriculaModelo PeriodoDeMatriculaModelo { set; get; }  
+
+        public EstadisticaCursosModelo EstadisticaCursosModelo { set; get; }
     }
 }

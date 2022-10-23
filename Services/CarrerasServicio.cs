@@ -124,5 +124,26 @@ namespace ControlUniversitario.Services
 
             }
         }
+
+        public static string DeterminarCuatrimestre()
+        {
+            var now = DateTime.Now;
+            if (now.Month >= 1 && now.Month <= 4)
+            {
+                return "I cuatrimestre";
+            }
+
+            if (now.Month >= 5 && now.Month <= 8)
+            {
+                return "II cuatrimestre";
+            }
+
+            if (now.Month >= 9 && now.Month <= 12)
+            {
+                return "III cuatrimestre";
+            }
+
+            return "";
+        }
     }
 }

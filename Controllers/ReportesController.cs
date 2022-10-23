@@ -43,23 +43,18 @@ namespace ControlUniversitario.Controllers
                 return View("EstudiantesPorCursos", ObtenerEstudiantesPorCursos());
             }
 
-            if (reporteModelo.ReporteSeleccionado.Equals(CursosPorEstudiantes))
-            {
-
-                return View("CursosPorEstudiantes", new ReporteModelo() { ListaDeReportes = listaDeReportes });
-            }
 
             if (reporteModelo.ReporteSeleccionado.Equals(TotalCuatrimestre))
             {
 
-                return View("TotalIngresosPorCuatrimestre", new ReporteModelo() { ListaDeReportes = listaDeReportes });
+                return View("TotalIngresosPorCuatrimestre", ObtenerIngresosDelCuatrimestre());
             }
 
 
             if (reporteModelo.ReporteSeleccionado.Equals(EstadisticaCursosMatriculados))
             {
 
-                return View("EstadisticaDeCursos", new ReporteModelo() { ListaDeReportes = listaDeReportes });
+                return View("EstadisticaDeCursos", ObtenerEstadisticaCursos());
             }
 
             
@@ -68,12 +63,27 @@ namespace ControlUniversitario.Controllers
             return View("Index", new ReporteModelo() { ListaDeReportes = listaDeReportes });
         }
 
+        private ReporteModelo ObtenerEstadisticaCursos()
+        {
+            var estadistica = _reportesServicio.CalcularEstadisticaDeCursos(CarrerasServicio.DeterminarCuatrimestre());
+
+            return new ReporteModelo() { ListaDeReportes = ObtenerListaDeReportes(), EstadisticaCursosModelo = estadistica  };
+        }
+
+        private ReporteModelo ObtenerIngresosDelCuatrimestre()
+        {
+            var datosPeriodo = _reportesServicio.CalcularIngresosPorCuatrimestre(CarrerasServicio.DeterminarCuatrimestre());
+
+            return new ReporteModelo() { ListaDeReportes = ObtenerListaDeReportes(), PeriodoDeMatriculaModelo = datosPeriodo };
+        }
+
         private ReporteModelo ObtenerEstudiantesPorCursos()
         {
 
             _reportesServicio.ObtenerEstudiantesPorCursos();
+            var cursos = _reportesServicio.ObtenerEstudiantesPorCursos();
 
-            return new ReporteModelo() { ListaDeReportes = ObtenerListaDeReportes() };
+            return new ReporteModelo() { ListaDeReportes = ObtenerListaDeReportes(), cursos = cursos };
         }
 
         private static List<SelectListItem> ObtenerListaDeReportes()
@@ -84,13 +94,6 @@ namespace ControlUniversitario.Controllers
             {
                 Value = EstudiantesPorCurso,
                 Text = "Lista de estudiantes matriculados por curso"
-
-            });
-
-            listaDeReportes.Add(new SelectListItem()
-            {
-                Value = CursosPorEstudiantes,
-                Text = "Lista de cursos con estudiantes matriculados"
 
             });
 

@@ -8,7 +8,38 @@
         <h5>Seleccione un reporte</h5>
         @Html.Partial("_SeleccionarReporte", Model)
 
-        <h2>Estudiantes por curso</h2>
+        <h2 class="mb-4">Estudiantes por curso</h2>
+
+
+        @foreach (var curso in Model.cursos) { 
+            <h5>@curso.NombreDelCurso (@curso.MatriculaDeCursoes.Count)</h5>
+
+            var matriculas = curso.MatriculaDeCursoes;
+
+
+            <table class="table mb-5">
+
+                <thead>
+                    <tr class="fw-bold table-secondary">
+                        <td>Cédula</td>
+                        <td>Nombre Completo</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var matricula in matriculas)
+                    {
+                       <tr>
+                           <td>@matricula.Estudiante.Identificacion</td>
+                           <td>@matricula.Estudiante.Nombre @matricula.Estudiante.PrimerApellido @matricula.Estudiante.SegundoApellido</td>
+                       </tr>
+                    }
+
+                </tbody>
+            </table>
+
+
+
+        }
     </div>
 
 </div>

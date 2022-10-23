@@ -69,7 +69,7 @@ namespace ControlUniversitario.Controllers
         [HttpPost]
         public ActionResult MatricularCurso(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo) {
 
-            _carrerasServicio.AgregarCursoAEstudiante(matriculaDeEstudianteModelo.EstudianteId, int.Parse( matriculaDeEstudianteModelo.CursoAMatricular), DeterminarCuatrimestre());
+            _carrerasServicio.AgregarCursoAEstudiante(matriculaDeEstudianteModelo.EstudianteId, int.Parse( matriculaDeEstudianteModelo.CursoAMatricular), CarrerasServicio.DeterminarCuatrimestre());
 
             return View("Matricular", ObtenerEstadoDeMatricula(matriculaDeEstudianteModelo));
         }
@@ -82,26 +82,6 @@ namespace ControlUniversitario.Controllers
             _carrerasServicio.RemoverCursoAEstudiante(matriculaDeEstudianteModelo.EstudianteId, int.Parse(matriculaDeEstudianteModelo.CursoAMatricular));
 
             return View("Matricular", ObtenerEstadoDeMatricula(matriculaDeEstudianteModelo));
-        }
-
-        private string DeterminarCuatrimestre()
-        {
-            var now = DateTime.Now;
-            if (now.Month >= 1 && now.Month <= 4) {
-                return "I cuatrimestre";
-            }
-
-            if (now.Month >= 5 && now.Month <= 8)
-            {
-                return "II cuatrimestre";
-            }
-
-            if (now.Month >= 9 && now.Month <= 12)
-            {
-                return "III cuatrimestre";
-            }
-
-            return "";
         }
 
         public ActionResult BuscarCarrera(MatriculaDeEstudianteModelo matriculaDeEstudianteModelo)

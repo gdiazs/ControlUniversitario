@@ -8,7 +8,17 @@
         <h5>Seleccione un reporte</h5>
         @Html.Partial("_SeleccionarReporte", Model)
 
-        <h2>Estadistica de cursos</h2>
+        <h2 class="mb-4">Estadística de cursos</h2>
+        <div>
+            <span class="fw-bold">Total de cursos:</span> @Model.EstadisticaCursosModelo.TotalCursos
+        </div>
+        <div>
+            <span class="fw-bold">Total de matriculado:</span> @Model.EstadisticaCursosModelo.TotalCursosMatriculados
+        </div>
+        <div>
+            <span class="fw-bold">%</span> @Model.EstadisticaCursosModelo.PorcentajeDeCursosMatriculados
+        </div>
+
     </div>
 
 </div>

@@ -5,10 +5,23 @@
 
     <div class="col-6 offset-3">
 
-        <h5>Seleccione un reporte</h5>
-        @Html.Partial("_SeleccionarReporte", Model)
+        <div class="mb-4">
+            <h5>Seleccione un reporte</h5>
+            @Html.Partial("_SeleccionarReporte", Model)
+
+        </div>
 
         <h2>Total ingresos en el cuatrimestre actual</h2>
+
+        <div class="mt-4">
+            <span class="fw-bold">Cantidad de cursos matriculados en @Model.PeriodoDeMatriculaModelo.Periodo:</span>
+            @Model.PeriodoDeMatriculaModelo.CantidadCursosMatriculados
+        </div>
+        <div>
+            <span class="fw-bold">Total de ingresos:</span>
+            @Model.PeriodoDeMatriculaModelo.TotalGanancia.ToString("C")
+        </div>
+
     </div>
 
 </div>
