@@ -36,7 +36,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'Curso' and xtype = 'U')
 		CursoID INT IDENTITY(1,1),
 		Escuela VARCHAR(200),
 		NombreDelCurso VARCHAR(80) UNIQUE,
-		Descripcion TEXT NOT NULL,
+		Descripcion TEXT,
 		Precio MONEY NOT NULL,
 		CONSTRAINT PK_Curso PRIMARY KEY  CLUSTERED 
 		(
@@ -121,28 +121,21 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name = 'CarreraCurso' and xtype = 
 GO
 
 
-
-CREATE LOGIN UsuarioK456u2 WITH PASSWORD = 'fn803UXsdD82', DEFAULT_DATABASE = ControlUniversitarioDB
-GO
-
-CREATE USER UsuarioK456u2 for login UsuarioK456u2
-GO
-
-GRANT SELECT, INSERT, DELETE, UPDATE ON Estudiante TO UsuarioK456u2
-GRANT SELECT, INSERT, DELETE, UPDATE ON Curso TO UsuarioK456u2
-GRANT SELECT, INSERT, DELETE, UPDATE ON MatriculaDeCurso TO UsuarioK456u2
-GRANT SELECT, INSERT, DELETE, UPDATE ON Carrera TO UsuarioK456u2
-GRANT SELECT, INSERT, DELETE, UPDATE ON CarreraCurso TO UsuarioK456u2
-GO
-
 -- Inserciones
+
 USE ControlUniversitarioDB
+
+GO
+INSERT [dbo].[Carrera] ([CarreraID], [NombreCarrera]) VALUES (1, N'Administración de Empresas (Diplomado)')
+GO
+INSERT [dbo].[Carrera] ([CarreraID], [NombreCarrera]) VALUES (2, N'Administración de Empresas con Énfasis en Banca y Finanzas')
+GO
+INSERT [dbo].[Carrera] ([CarreraID], [NombreCarrera]) VALUES (3, N'Administración de Empresas con Énfasis en Contaduría')
+GO
+INSERT [dbo].[Carrera] ([CarreraID], [NombreCarrera]) VALUES (4, N'Ingeniería Informática (Bachillerato)')
+GO
+INSERT [dbo].[Carrera] ([CarreraID], [NombreCarrera]) VALUES (5, N'Ingeniería Informática (Licenciatura)')
 GO
 
-INSERT INTO dbo.Curso
-           (NombreDelCurso, Descripcion, Precio)
-     VALUES
-           ('Matemáticas','Curso general',87990.23),
-		   ('Literatura','Curso general',95000.00),
-		   ('Ingeniería Informática','Curso general', 250369.17)
+
 GO

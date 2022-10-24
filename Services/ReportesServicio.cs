@@ -31,8 +31,8 @@ namespace ControlUniversitario.Services
                 var cursosMatriculados = matriculas.Count();
 
                 return new PeriodoDeMatriculaModelo() {
-                    Periodo = cuatrimestre,
-                    TotalGanancia = matriculas.Select(matricula => matricula.PrecioMatricula).Sum(),
+                    Periodo = cuatrimestre, 
+                    TotalGanancia = matriculas.Count() > 0 ? matriculas.Select(matricula => matricula.PrecioMatricula).Sum() : 0,
                     CantidadCursosMatriculados = cursosMatriculados
                 };
             }
